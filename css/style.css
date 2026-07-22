@@ -243,3 +243,17 @@ body {
     transform: translateY(-3px);
     box-shadow: 0 8px 25px rgba(212, 175, 55, 0.6);
 }
+/* PAKSA LOADING SCREEN HILANG & ISI WEB KELIATAN */
+#loading-screen, 
+.loading-screen {
+    display: none !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+}
+
+/* Biar background dan teks tetap kelihatan padat */
+body {
+    background-color: #0d1f12 !important;
+    color: #f9f5eb !important;
+    min-height: 100vh;
+}
