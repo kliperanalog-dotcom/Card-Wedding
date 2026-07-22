@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- SEO Primary Meta Tags -->
+    <title>Pernikahan Royal Jawa - Danang & Partner</title>
+    <meta name="title" content="Pernikahan Royal Jawa - Danang & Partner">
+    <meta name="description" content="Undangan Pernikahan Mewah Adat Jawa. Bergabunglah bersama kami dalam merayakan hari bahagia.">
+    <meta name="keywords" content="undangan pernikahan, wedding invitation, royal javanese wedding, pernikahan jawa mewah">
+    <meta name="robots" content="index, follow">
+    <meta name="theme-color" content="#0d1f12">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://username.github.io/wedding-invitation/">
+    <meta property="og:title" content="Pernikahan Royal Jawa - Danang & Partner">
+    <meta property="og:description" content="Undangan Pernikahan Mewah Adat Jawa.">
+    <meta property="og:image" content="assets/images/og-image.jpg">
+
+    <!-- Schema.org Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Event",
+      "name": "Pernikahan Danang & Partner",
+      "startDate": "2026-12-12T08:00",
+      "endDate": "2026-12-12T21:00",
+      "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
+      "eventStatus": "https://schema.org/EventScheduled",
+      "location": {
+        "@type": "Place",
+        "name": "Pendopo Agung Keraton",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "Jl. Keraton No. 1",
+          "addressLocality": "Yogyakarta",
+          "postalCode": "55111",
+          "addressCountry": "ID"
+        }
+      }
+    }
+    </script>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Cinzel:wght@400;600;800&family=Great+Vibes&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Third-Party CSS Libraries (CDN untuk GitHub Pages) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lenis@1.0.42/dist/lenis.css">
+    <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/animation.css">
+    <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+
+    <!-- CUSTOM CURSOR -->
+    <div class="custom-cursor" id="cursor"></div>
+    <div class="custom-cursor-follower" id="cursor-follower"></div>
+
+    <!-- CANVAS PARTICLES (GOLDEN DUST & FIREFLIES) -->
+    <canvas id="particle-canvas"></canvas>
+
+    <!-- CINEMATIC LOADING SCREEN -->
+    <div id="loading-screen" class="loading-screen">
+        <div class="golden-glow"></div>
+        <div class="monogram-container">
+            <div class="monogram-frame">
+                <span class="monogram-text">D & P</span>
+            </div>
+            <div class="loading-bar">
+                <div class="loading-progress" id="loading-progress"></div>
+            </div>
+            <p class="loading-subtitle">Memuat Undangan Royal Jawa...</p>
+        </div>
+
+        <!-- Curtains / Curtain Trees for Reveal -->
+        <div class="curtain curtain-left" id="curtain-left"></div>
+        <div class="curtain curtain-right" id="curtain-right"></div>
+        <div class="gunungan-reveal" id="gunungan-reveal">
+            <svg class="gunungan-svg" viewBox="0 0 100 150">
+                <path d="M50 0 L100 150 L0 150 Z" fill="url(#gold-gradient)" />
+                <defs>
+                    <linearGradient id="gold-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stop-color="#d4af37" />
+                        <stop offset="50%" stop-color="#aa7c11" />
+                        <stop offset="100%" stop-color="#553c08" />
+                    </linearGradient>
+                </defs>
+            </svg>
+        </div>
+    </div>
+
+    <!-- MUSIC CONTROLLER -->
+    <div class="music-controller" id="music-controller">
+        <button id="music-toggle" aria-label="Toggle Play/Pause Music" class="music-btn pulse-glow">
+            <i class="fas fa-music"></i>
+        </button>
+        <audio id="bg-music" loop>
+            <source src="assets/music/gamelan-instrumental.mp3" type="audio/mpeg">
+        </audio>
+    </div>
+
+    <!-- MAIN WRAPPER -->
+    <div id="smooth-wrapper">
+        <div id="smooth-content">
+
+            <!-- SECTION 1: HERO (PARALLAX LANDSCAPE) -->
+            <section id="hero" class="hero-section">
+                <div class="parallax-bg layer-sky"></div>
+                <div class="parallax-bg layer-mountains"></div>
+                <div class="parallax-bg layer-waterfall"></div>
+                <div class="parallax-bg layer-fog" id="fog-layer"></div>
+                <div class="parallax-bg layer-trees"></div>
+                <div class="parallax-bg layer-pendopo"></div>
+                <div class="parallax-bg layer-wayang"></div>
+
+                <div class="hero-content">
+                    <span class="royal-subtitle" data-aos="fade-down">The Royal Wedding of</span>
+                    <h1 class="royal-title" data-aos="zoom-in" data-aos-delay="300">Danang & Partner</h1>
+                    <p class="wedding-date-tag" data-aos="fade-up" data-aos-delay="600">Sabtu, 12 Desember 2026</p>
+                    <a href="#groom-bride" class="btn-royal btn-scroll-down">
+                        <span>Buka Undangan</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </a>
+                </div>
+            </section>
+
+            <!-- SECTION 2: NAMA PENGANTIN -->
+            <section id="groom-bride" class="groom-bride-section section-padding">
+                <div class="container">
+                    <div class="section-header text-center" data-aos="fade-up">
+                        <h2 class="title-jawa">Pasangan Pengantin</h2>
+                        <div class="divider-ukiran"></div>
+                    </div>
+
+                    <div class="couple-grid">
+                        <!-- Groom -->
+                        <div class="couple-card groom" data-aos="fade-right">
+                            <div class="img-frame-jawa tilt-effect">
+                                <img src="assets/images/groom.jpg" alt="Foto Danang" class="couple-img" loading="lazy">
+                                <div class="ukiran-overlay"></div>
+                            </div>
+                            <h3>Danang Ageng Priyambada, S.Kom.</h3>
+                            <p class="parent-name">Putra Pertama dari Bapak [Nama Bapak] & Ibu [Nama Ibu]</p>
+                        </div>
+
+                        <div class="couple-divider" data-aos="zoom-in">
+                            <span class="and-symbol">&</span>
+                        </div>
+
+                        <!-- Bride -->
+                        <div class="couple-card bride" data-aos="fade-left">
+                            <div class="img-frame-jawa tilt-effect">
+                                <img src="assets/images/bride.jpg" alt="Foto Partner" class="couple-img" loading="lazy">
+                                <div class="ukiran-overlay"></div>
+                            </div>
+                            <h3>[Nama Lengkap Mempelai Wanita], S.Pd.</h3>
+                            <p class="parent-name">Putri Kedua dari Bapak [Nama Bapak] & Ibu [Nama Ibu]</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Continuation of sections will follow in Part 2... -->
