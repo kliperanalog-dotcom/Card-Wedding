@@ -5,14 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pernikahan Royal Jawa - Danang & Partner</title>
     
-    <!-- Google Fonts -->
+    <!-- Google Fonts & FontAwesome -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Cinzel:wght@600;800&family=Great+Vibes&family=Plus+Jakarta+Sans:wght@300;400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
     <style>
-        /* ==================== STYLESHEET UTAMA ==================== */
+        /* ==================== STYLESHEET & ANIMATIONS ==================== */
         :root {
             --bg-dark: #0d1f12;
             --bg-brown: #1c130d;
@@ -31,9 +31,100 @@
             font-family: 'Plus Jakarta Sans', sans-serif;
             text-align: center;
             overflow-x: hidden;
+            position: relative;
         }
 
-        /* Hero Section */
+        /* Canvas Particle Dust */
+        #particle-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        /* CINEMATIC GAPURA & CURTAIN OPENING */
+        .curtain-container {
+            position: fixed;
+            inset: 0;
+            z-index: 999;
+            pointer-events: none;
+            display: flex;
+        }
+
+        .curtain {
+            width: 50vw;
+            height: 100vh;
+            background-color: var(--bg-brown);
+            background-image: radial-gradient(circle at center, rgba(212,175,55,0.15) 0%, transparent 70%);
+            border-bottom: 5px solid var(--gold);
+            transition: transform 1.8s cubic-bezier(0.77, 0, 0.175, 1);
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .curtain-left {
+            border-right: 3px solid var(--gold);
+            justify-content: flex-end;
+        }
+
+        .curtain-right {
+            border-left: 3px solid var(--gold);
+            justify-content: flex-start;
+        }
+
+        /* Gapura & Pohon Ornament di Tirai */
+        .curtain-ornament {
+            font-size: 8rem;
+            color: var(--gold);
+            opacity: 0.3;
+            filter: drop-shadow(0 0 15px var(--gold));
+        }
+
+        .curtain-open .curtain-left { transform: translateX(-100%); }
+        .curtain-open .curtain-right { transform: translateX(100%); }
+
+        /* PRELOADER INTRO SCREEN */
+        .preloader {
+            position: fixed;
+            inset: 0;
+            background: var(--bg-dark);
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 1s ease, visibility 1s ease;
+        }
+
+        .preloader.fade-out {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .monogram {
+            width: 90px;
+            height: 90px;
+            border: 2px solid var(--gold);
+            transform: rotate(45deg);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 2rem;
+            animation: pulseGlow 2s infinite alternate;
+        }
+
+        .monogram span {
+            transform: rotate(-45deg);
+            font-family: 'Cinzel Decorative', serif;
+            font-size: 1.5rem;
+            color: var(--gold-light);
+        }
+
+        /* HERO SECTION WITH ANIMATED NATURE & WAYANG */
         .hero {
             min-height: 100vh;
             display: flex;
@@ -41,15 +132,82 @@
             justify-content: center;
             align-items: center;
             padding: 2rem;
-            background: linear-gradient(180deg, rgba(13,31,18,0.8) 0%, rgba(28,19,13,0.95) 100%), 
-                        url('https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=1200') center/cover no-repeat;
             position: relative;
+            background: radial-gradient(circle, rgba(13,31,18,0.7) 0%, rgba(5,8,6,0.95) 100%);
+            overflow: hidden;
+        }
+
+        /* Wayang & Gunungan Floating Elements */
+        .wayang-bg {
+            position: absolute;
+            bottom: -20px;
+            width: 140px;
+            opacity: 0.35;
+            filter: drop-shadow(0 0 10px rgba(212,175,55,0.4));
+            animation: floatWayang 4s ease-in-out infinite alternate;
+            z-index: 3;
+        }
+
+        .wayang-left { left: 5%; }
+        .wayang-right { right: 5%; transform: scaleX(-1); animation-delay: 2s; }
+
+        .gunungan-bg {
+            position: absolute;
+            bottom: 0;
+            width: 220px;
+            opacity: 0.25;
+            z-index: 1;
+            animation: pulseGunungan 6s ease-in-out infinite alternate;
+        }
+
+        /* Burung-burung Terbang (Flying Birds) */
+        .bird-container {
+            position: absolute;
+            top: 20%;
+            left: -10%;
+            z-index: 4;
+            animation: flyBirds 15s linear infinite;
+        }
+
+        .bird {
+            color: var(--gold-light);
+            font-size: 1rem;
+            opacity: 0.6;
+            margin-right: 15px;
+            display: inline-block;
+            animation: flapWings 0.8s ease-in-out infinite alternate;
+        }
+
+        /* Daun Berguguran (Floating Leaves) */
+        .leaf {
+            position: absolute;
+            top: -10%;
+            color: #4a7c59;
+            font-size: 1.2rem;
+            opacity: 0.7;
+            z-index: 4;
+            animation: fallLeaves 10s linear infinite;
+        }
+
+        /* Kabut Bergerak (Moving Fog) */
+        .fog-layer {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(90deg, transparent, rgba(212,175,55,0.05), transparent);
+            z-index: 2;
+            animation: moveFog 8s ease-in-out infinite alternate;
+        }
+
+        /* HERO CONTENT */
+        .hero-content {
+            position: relative;
+            z-index: 5;
         }
 
         .subtitle {
             font-family: 'Cinzel', serif;
             color: var(--gold-light);
-            letter-spacing: 3px;
+            letter-spacing: 4px;
             font-size: 0.9rem;
             text-transform: uppercase;
             margin-bottom: 10px;
@@ -57,63 +215,69 @@
 
         .title {
             font-family: 'Cinzel Decorative', serif;
-            font-size: clamp(2rem, 5vw, 4rem);
+            font-size: clamp(2.2rem, 6vw, 4.5rem);
             color: var(--gold);
-            text-shadow: 0 4px 15px rgba(0,0,0,0.8);
+            text-shadow: 0 4px 20px rgba(0,0,0,0.9), 0 0 10px rgba(212,175,55,0.4);
             margin-bottom: 15px;
+            animation: textGlow 3s ease-in-out infinite alternate;
         }
 
         .date-badge {
             background: rgba(212, 175, 55, 0.15);
             border: 1px solid var(--gold);
-            padding: 8px 20px;
+            padding: 8px 24px;
             border-radius: 20px;
             font-family: 'Cinzel', serif;
             color: var(--gold-light);
-            margin-bottom: 30px;
+            margin-bottom: 35px;
+            display: inline-block;
+            box-shadow: 0 0 15px rgba(212,175,55,0.2);
         }
 
         .btn-royal {
             display: inline-flex;
             align-items: center;
-            gap: 10px;
-            padding: 14px 32px;
+            gap: 12px;
+            padding: 14px 36px;
             background: linear-gradient(135deg, var(--gold) 0%, #aa7c11 100%);
             color: #000;
             font-weight: 700;
             text-decoration: none;
             border-radius: 30px;
-            box-shadow: 0 0 20px rgba(212, 175, 55, 0.5);
-            transition: 0.3s;
+            box-shadow: 0 0 25px rgba(212, 175, 55, 0.6);
+            transition: all 0.3s ease;
+            cursor: pointer;
         }
 
         .btn-royal:hover {
-            transform: scale(1.05);
-            box-shadow: 0 0 30px rgba(212, 175, 55, 0.8);
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 0 35px rgba(212, 175, 55, 0.9);
         }
 
-        /* Section Container */
+        /* SECTION COMMON STYLES */
         .section {
-            padding: 80px 20px;
+            padding: 90px 20px;
             max-width: 1000px;
             margin: 0 auto;
+            position: relative;
+            z-index: 5;
         }
 
         .section-title {
             font-family: 'Cinzel Decorative', serif;
             color: var(--gold);
-            font-size: 2rem;
+            font-size: 2.2rem;
             margin-bottom: 10px;
         }
 
         .divider {
-            width: 80px;
+            width: 100px;
             height: 2px;
-            background: var(--gold);
+            background: linear-gradient(90deg, transparent, var(--gold), transparent);
             margin: 0 auto 40px;
         }
 
-        /* Couple Section */
+        /* COUPLE SECTION */
         .couple-grid {
             display: flex;
             flex-wrap: wrap;
@@ -124,17 +288,20 @@
         }
 
         .card {
-            background: rgba(28, 19, 13, 0.7);
+            background: rgba(28, 19, 13, 0.85);
             border: 2px solid var(--gold);
             padding: 25px;
             border-radius: 15px;
             max-width: 320px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.7);
+            transition: transform 0.4s ease;
         }
+
+        .card:hover { transform: translateY(-8px); }
 
         .card img {
             width: 100%;
-            height: 320px;
+            height: 340px;
             object-fit: cover;
             border-radius: 10px;
             border: 1px solid var(--gold-light);
@@ -150,54 +317,146 @@
 
         .and-symbol {
             font-family: 'Great Vibes', cursive;
-            font-size: 4rem;
+            font-size: 4.5rem;
             color: var(--gold);
+            text-shadow: 0 0 15px rgba(212,175,55,0.5);
         }
 
-        /* Event Details */
+        /* EVENT DETAILS BOX */
         .event-box {
-            background: var(--bg-brown);
+            background: rgba(28, 19, 13, 0.9);
             border: 1px solid var(--gold);
             border-radius: 12px;
             padding: 30px;
             margin: 20px 0;
-        }
-
-        /* Gift & QRIS */
-        .qris-img {
-            max-width: 200px;
-            border: 2px solid var(--gold);
-            border-radius: 10px;
-            margin: 15px 0;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.5);
         }
 
         footer {
-            padding: 30px;
+            padding: 35px;
             background: #050806;
             color: var(--gold-light);
             font-size: 0.85rem;
             border-top: 1px solid var(--gold);
+            position: relative;
+            z-index: 5;
+        }
+
+        /* KEYFRAME ANIMATIONS */
+        @keyframes pulseGlow {
+            0% { box-shadow: 0 0 15px rgba(212,175,55,0.2); }
+            100% { box-shadow: 0 0 35px rgba(212,175,55,0.7); }
+        }
+
+        @keyframes floatWayang {
+            0% { transform: translateY(0) rotate(0deg); }
+            100% { transform: translateY(-15px) rotate(2deg); }
+        }
+
+        @keyframes pulseGunungan {
+            0% { transform: scale(1); opacity: 0.2; }
+            100% { transform: scale(1.05); opacity: 0.35; }
+        }
+
+        @keyframes flyBirds {
+            0% { left: -15%; top: 25%; }
+            50% { top: 15%; }
+            100% { left: 115%; top: 20%; }
+        }
+
+        @keyframes flapWings {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(-5px); }
+        }
+
+        @keyframes fallLeaves {
+            0% { top: -10%; transform: translateX(0) rotate(0deg); }
+            100% { top: 110%; transform: translateX(100px) rotate(360deg); }
+        }
+
+        @keyframes moveFog {
+            0% { transform: translateX(-5%); }
+            100% { transform: translateX(5%); }
+        }
+
+        @keyframes textGlow {
+            0% { text-shadow: 0 0 10px rgba(212,175,55,0.3); }
+            100% { text-shadow: 0 0 25px rgba(212,175,55,0.8); }
         }
     </style>
 </head>
 <body>
 
+    <!-- GOLDEN DUST CANVAS -->
+    <canvas id="particle-canvas"></canvas>
+
+    <!-- CINEMATIC PRELOADER -->
+    <div class="preloader" id="preloader">
+        <div class="monogram">
+            <span>D & P</span>
+        </div>
+        <p style="font-family: 'Cinzel', serif; color: var(--gold-light); letter-spacing: 2px;">MEMUAT UNDANGAN...</p>
+    </div>
+
+    <!-- GAPURA & POHON CURTAIN LAYER -->
+    <div class="curtain-container" id="curtain-container">
+        <div class="curtain curtain-left">
+            <i class="fas fa-torii-gate curtain-ornament" style="margin-right: 20px;"></i>
+        </div>
+        <div class="curtain curtain-right">
+            <i class="fas fa-torii-gate curtain-ornament" style="margin-left: 20px; transform: scaleX(-1);"></i>
+        </div>
+    </div>
+
     <!-- HERO SECTION -->
     <section class="hero">
-        <p class="subtitle">The Royal Wedding of</p>
-        <h1 class="title">Danang & Partner</h1>
-        <div class="date-badge">Sabtu, 12 Desember 2026</div>
-        <a href="#couple" class="btn-royal">
-            <span>BUKA UNDANGAN</span>
-            <i class="fas fa-chevron-down"></i>
-        </a>
+        <!-- Animated Wayang & Gunungan -->
+        <svg class="gunungan-bg" viewBox="0 0 100 150">
+            <path d="M50 0 L100 150 L0 150 Z" fill="url(#gold-grad)" />
+            <defs>
+                <linearGradient id="gold-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="#d4af37" />
+                    <stop offset="100%" stop-color="#1c130d" />
+                </linearGradient>
+            </defs>
+        </svg>
+
+        <i class="fas fa-[#] wayang-bg wayang-left fa-vihara"></i>
+        <i class="fas fa-[#] wayang-bg wayang-right fa-vihara"></i>
+
+        <!-- Burung-burung Terbang -->
+        <div class="bird-container">
+            <i class="fas fa-dove bird"></i>
+            <i class="fas fa-dove bird" style="animation-delay: 0.2s;"></i>
+            <i class="fas fa-dove bird" style="animation-delay: 0.4s;"></i>
+        </div>
+
+        <!-- Daun-daun Gugur -->
+        <i class="fas fa-leaf leaf" style="left: 15%; animation-duration: 8s;"></i>
+        <i class="fas fa-leaf leaf" style="left: 45%; animation-duration: 12s; animation-delay: 2s;"></i>
+        <i class="fas fa-leaf leaf" style="left: 75%; animation-duration: 10s; animation-delay: 4s;"></i>
+
+        <!-- Kabut -->
+        <div class="fog-layer"></div>
+
+        <!-- Content -->
+        <div class="hero-content">
+            <p class="subtitle">The Royal Wedding of</p>
+            <h1 class="title">Danang & Partner</h1>
+            <div class="date-badge">Sabtu, 12 Desember 2026</div>
+            <br>
+            <button class="btn-royal" onclick="openInvitation()">
+                <span>BUKA UNDANGAN</span>
+                <i class="fas fa-door-open"></i>
+            </button>
+        </div>
     </section>
 
     <!-- MEMPELAI SECTION -->
     <section id="couple" class="section">
         <h2 class="section-title">Mempelai Pengantin</h2>
         <div class="divider"></div>
-        <p style="font-style: italic; color: var(--gold-light);">"Maha Suci Allah yang telah menciptakan pasangan-pasangan semuanya..."</p>
+        <p style="font-style: italic; color: var(--gold-light); margin-bottom: 30px;">"Maha Suci Allah yang telah menciptakan pasangan-pasangan semuanya..."</p>
 
         <div class="couple-grid">
             <div class="card">
@@ -253,5 +512,63 @@
         <p style="margin-top: 5px; color: #888;">Danang & Partner Wedding</p>
     </footer>
 
+    <!-- JAVASCRIPT ANIMATIONS -->
+    <script>
+        // 1. Preloader Fade Out
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                const preloader = document.getElementById('preloader');
+                if (preloader) preloader.classList.add('fade-out');
+            }, 1000);
+        });
+
+        // 2. Open Curtain / Gapura Opening Effect
+        function openInvitation() {
+            const curtain = document.getElementById('curtain-container');
+            if (curtain) {
+                curtain.classList.add('curtain-open');
+            }
+            // Smooth Scroll ke Section Mempelai
+            document.getElementById('couple').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // 3. Canvas Golden Dust Particles
+        const canvas = document.getElementById('particle-canvas');
+        const ctx = canvas.getContext('2d');
+
+        let width = canvas.width = window.innerWidth;
+        let height = canvas.height = window.innerHeight;
+
+        window.addEventListener('resize', () => {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        });
+
+        const particles = Array.from({ length: 45 }, () => ({
+            x: Math.random() * width,
+            y: Math.random() * height,
+            radius: Math.random() * 2 + 0.5,
+            color: 'rgba(212, 175, 55, ' + (Math.random() * 0.5 + 0.2) + ')',
+            vx: Math.random() * 0.4 - 0.2,
+            vy: Math.random() * -0.4 - 0.1
+        }));
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, width, height);
+            particles.forEach(p => {
+                p.x += p.vx;
+                p.y += p.vy;
+                if (p.y < 0) p.y = height;
+                if (p.x < 0 || p.x > width) p.vx *= -1;
+
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+                ctx.fillStyle = p.color;
+                ctx.fill();
+            });
+            requestAnimationFrame(animateParticles);
+        }
+        animateParticles();
+    </script>
 </body>
 </html>
