@@ -27,7 +27,7 @@
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        html, body { width: 100%; height: 100%; background-color: var(--bg-dark); color: #fff; font-family: 'Plus Jakarta Sans', sans-serif; overflow-x: hidden; }
+        html, body { width: 100%; height: 100%; background-color: var(--bg-dark); color: #fff; font-family: 'Plus Jakarta Sans', sans-serif; overflow-x: hidden; scroll-behavior: smooth; }
 
         /* 3D CANVAS BACKGROUND FULLSCREEN */
         #webgl-canvas {
@@ -102,12 +102,13 @@
         }
 
         .avatar-frame {
-            width: 120px; height: 120px;
+            width: 130px; height: 130px;
             margin: 0 auto 15px;
             border-radius: 50%;
             border: 2px solid var(--gold-heritage);
             padding: 5px;
             box-shadow: 0 0 20px rgba(212, 175, 55, 0.4);
+            background: var(--maroon-royal);
         }
         .avatar-frame img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
 
@@ -130,10 +131,18 @@
             border-right: 1px solid var(--gold-heritage);
         }
 
-        .gunungan-svg {
-            width: 150px;
-            filter: drop-shadow(0 0 25px var(--gold-heritage));
-            animation: pulse3D 3.5s ease-in-out infinite alternate;
+        .cover-photo-frame {
+            width: 140px;
+            height: 180px;
+            border: 2px solid var(--gold-heritage);
+            border-radius: 80px 80px 20px 20px;
+            padding: 5px;
+            margin-bottom: 15px;
+            box-shadow: 0 0 25px rgba(212, 175, 55, 0.5);
+            background: rgba(0,0,0,0.5);
+        }
+        .cover-photo-frame img {
+            width: 100%; height: 100%; object-fit: cover; border-radius: 75px 75px 15px 15px;
         }
 
         .btn-open {
@@ -164,8 +173,9 @@
             border: 1px solid var(--gold-heritage);
             border-radius: 12px;
             overflow: hidden;
-            height: 140px;
+            height: 150px;
             box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+            background: rgba(0,0,0,0.3);
         }
         .gallery-item img {
             width: 100%; height: 100%; object-fit: cover;
@@ -225,11 +235,6 @@
             display: flex; justify-content: center; align-items: center;
             font-size: 1.1rem; cursor: pointer; z-index: 101; box-shadow: 0 0 15px rgba(0,0,0,0.8);
         }
-
-        @keyframes pulse3D {
-            0% { transform: scale(1); filter: drop-shadow(0 0 15px var(--gold-heritage)); }
-            100% { transform: scale(1.08); filter: drop-shadow(0 0 30px var(--gold-light)); }
-        }
     </style>
 </head>
 <body>
@@ -243,20 +248,19 @@
     </audio>
     <div class="music-btn" id="musicToggle" onclick="toggleMusic()"><i class="fas fa-compact-disc"></i></div>
 
-    <!-- SLIDE 1: COVER PEMBUKA & NAMA TUJUAN UNDANGAN -->
+    <!-- SLIDE 1: COVER PEMBUKA & FOTO UTAMA UNTUK DUA MEMPELAI -->
     <div class="cover-overlay" id="cover">
-        <svg class="gunungan-svg" viewBox="0 0 200 300" fill="none" stroke="#d4af37" stroke-width="2">
-            <path d="M100 10 L180 250 C180 280, 150 290, 100 290 C50 290, 20 280, 20 250 Z" fill="#6b1111" opacity="0.6"/>
-            <path d="M100 30 L160 240 M100 30 L40 240" stroke="#fbe38e" stroke-width="1.2"/>
-            <circle cx="100" cy="150" r="35" stroke="#d4af37"/>
-        </svg>
+        <!-- FOTO SAMPLE COVER AWAL PASANGAN -->
+        <div class="cover-photo-frame">
+            <img src="https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=400" alt="Foto Cover Pasangan">
+        </div>
 
-        <p class="sub-title" style="margin-top: 20px;">WEDDING INVITATION</p>
-        <h1 class="main-title" style="font-size: 2.8rem;">Danang<br><span style="font-size: 1.5rem; color: var(--gold-heritage);">&</span><br>Partner</h1>
+        <p class="sub-title">WEDDING INVITATION</p>
+        <h1 class="main-title" style="font-size: 2.5rem;">Danang<br><span style="font-size: 1.3rem; color: var(--gold-heritage);">&</span><br>Partner</h1>
         
-        <p style="font-size: 0.85rem; color: #ccc; margin-top: 20px;">Kepada Yth. Bapak/Ibu/Saudara/i:</p>
+        <p style="font-size: 0.85rem; color: #ccc; margin-top: 15px;">Kepada Yth. Bapak/Ibu/Saudara/i:</p>
         <div style="border: 1px dashed var(--gold-heritage); padding: 8px 25px; border-radius: 20px; margin-top: 8px; background: rgba(0,0,0,0.4);">
-            <p style="font-weight: 700; color: var(--gold-light); font-size: 1.1rem;">Tamu Undangan Special</p>
+            <p style="font-weight: 700; color: var(--gold-light); font-size: 1rem;">Tamu Undangan Special</p>
         </div>
 
         <button class="btn-open" onclick="openInvitation()"><i class="fas fa-envelope-open"></i> BUKA UNDANGAN</button>
@@ -283,17 +287,19 @@
             <h2 class="main-title" data-aos="fade-up">Mempelai Pengantin</h2>
             <div class="divider-icon"><i class="fas fa-heart"></i></div>
 
+            <!-- FOTO MEMPELAI PRIA -->
             <div class="card-box" data-aos="fade-up">
                 <div class="avatar-frame">
-                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=300" alt="Mempelai Pria">
+                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=400" alt="Mempelai Pria">
                 </div>
                 <h3 style="font-family: 'Playfair Display'; color: var(--gold-light); font-size: 1.4rem;">Danang Ageng P.</h3>
                 <p style="font-size: 0.8rem; margin-top: 5px; color: #ccc;">Putra dari Bapak [Nama Bapak]<br>& Ibu [Nama Ibu]</p>
             </div>
 
+            <!-- FOTO MEMPELAI WANITA -->
             <div class="card-box" data-aos="fade-up" style="margin-top: 20px;">
                 <div class="avatar-frame">
-                    <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=300" alt="Mempelai Wanita">
+                    <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=400" alt="Mempelai Wanita">
                 </div>
                 <h3 style="font-family: 'Playfair Display'; color: var(--gold-light); font-size: 1.4rem;">[Nama Mempelai Wanita]</h3>
                 <p style="font-size: 0.8rem; margin-top: 5px; color: #ccc;">Putri dari Bapak [Nama Bapak]<br>& Ibu [Nama Ibu]</p>
@@ -344,17 +350,19 @@
             </div>
         </section>
 
-        <!-- SLIDE 7: KUMPULAN FOTO PREWEDDING -->
+        <!-- SLIDE 7: KUMPULAN FOTO PREWEDDING (6 FOTO GALERI LENGKAP) -->
         <section class="slide" id="slide7">
             <p class="sub-title" data-aos="fade-up">GALERI BAHAGIA</p>
             <h2 class="main-title" data-aos="fade-up">Foto Prewedding</h2>
             <div class="divider-icon"><i class="fas fa-camera"></i></div>
 
             <div class="gallery-grid" data-aos="fade-up">
-                <div class="gallery-item"><img src="https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=300" alt="Prewed 1"></div>
-                <div class="gallery-item"><img src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?q=80&w=300" alt="Prewed 2"></div>
-                <div class="gallery-item"><img src="https://images.unsplash.com/photo-1583939003579-730e3918a45a?q=80&w=300" alt="Prewed 3"></div>
-                <div class="gallery-item"><img src="https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?q=80&w=300" alt="Prewed 4"></div>
+                <div class="gallery-item"><img src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?q=80&w=400" alt="Prewed 1"></div>
+                <div class="gallery-item"><img src="https://images.unsplash.com/photo-1583939003579-730e3918a45a?q=80&w=400" alt="Prewed 2"></div>
+                <div class="gallery-item"><img src="https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?q=80&w=400" alt="Prewed 3"></div>
+                <div class="gallery-item"><img src="https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=400" alt="Prewed 4"></div>
+                <div class="gallery-item"><img src="https://images.unsplash.com/photo-1522673607200-164d1b6ce486?q=80&w=400" alt="Prewed 5"></div>
+                <div class="gallery-item"><img src="https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?q=80&w=400" alt="Prewed 6"></div>
             </div>
         </section>
 
@@ -412,7 +420,7 @@
                     <button type="submit" class="btn-submit"><i class="fas fa-paper-plane"></i> KIRIM KONFIRMASI</button>
                 </form>
             </div>
-        </footer>
+        </section>
 
     </div>
 
