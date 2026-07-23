@@ -2,454 +2,574 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Wedding of Danang & Partner</title>
-    
-    <!-- Google Fonts & FontAwesome -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>The Wedding of Danang & Partner — Royal Heritage 3D</title>
+
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;800&family=Playfair+Display:ital,wght@0,600;1,400;1,600&family=Plus+Jakarta+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Cinzel:wght@500;700;900&family=Playfair+Display:ital,wght@0,600;1,400;1,600&family=Plus+Jakarta+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome & AOS CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+    <!-- External 3D & Motion Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.19/bundled/lenis.min.js"></script>
 
     <style>
         :root {
-            --bg-vintage: #f4ebd9;
-            --bg-card: #e5d3b3;
-            --maroon: #6b1d1d;
-            --brown-dark: #3a2518;
-            --gold-vintage: #b89241;
-            --gold-glow: #ffd700;
-            --text-dark: #2c1a0e;
+            --bg-dark: #0a0503;
+            --bg-card: #180d07;
+            --maroon-dark: #4a0808;
+            --maroon-royal: #7a1212;
+            --gold-heritage: #d4af37;
+            --gold-glow: #ffe680;
+            --cream-paper: #f7f0e3;
+            --text-light: #eae0d0;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        html { scroll-behavior: smooth; }
-        
-        body {
-            background-color: var(--bg-vintage);
-            color: var(--text-dark);
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            text-align: center;
-            overflow-x: hidden;
-            /* Tekstur Kertas Serat Vintage */
-            background-image: radial-gradient(rgba(107, 29, 29, 0.08) 1px, transparent 0);
-            background-size: 20px 20px;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        html, body { width: 100%; height: 100%; background-color: var(--bg-dark); color: var(--text-light); font-family: 'Plus Jakarta Sans', sans-serif; overflow-x: hidden; }
 
-        /* PARTIKEL DEBU EMAS MELAYANG */
-        .sparkle-container {
+        /* 3D CANVAS BACKGROUND */
+        #webgl-canvas {
             position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
+            z-index: 1;
             pointer-events: none;
-            z-index: 2;
         }
 
-        .sparkle {
-            position: absolute;
-            width: 4px; height: 4px;
-            background: var(--gold-vintage);
-            border-radius: 50%;
-            box-shadow: 0 0 10px var(--gold-glow);
-            animation: floatSparkle 7s infinite linear;
-            opacity: 0.7;
-        }
-
-        /* HERO SECTION VINTAGE */
-        .hero {
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            padding: 2rem;
+        /* MOBILE FRAME CONTAINER (HERITAGE PORTRAIT) */
+        .app-wrapper {
             position: relative;
-            background: radial-gradient(circle, rgba(244,235,217,0.4) 0%, rgba(229,211,179,0.9) 100%);
+            z-index: 2;
+            width: 100%;
+            max-width: 480px;
+            margin: 0 auto;
+            min-height: 100vh;
+            background: rgba(15, 8, 5, 0.85);
+            backdrop-filter: blur(12px);
+            border-left: 1px solid rgba(212, 175, 55, 0.3);
+            border-right: 1px solid rgba(212, 175, 55, 0.3);
+            box-shadow: 0 0 50px rgba(0,0,0,0.9);
             overflow: hidden;
         }
 
-        /* JOGLO BACKGROUND SVG (PASTI MUNCUL) */
-        .joglo-bg {
-            position: absolute;
-            bottom: -10px;
-            width: clamp(300px, 70vw, 750px);
-            opacity: 0.3;
-            z-index: 1;
-            filter: drop-shadow(0 0 15px rgba(107, 29, 29, 0.3));
-            animation: jogloZoom 10s ease-in-out infinite alternate;
-        }
-
-        /* ORNAMEN WAYANG PENGANTIN JAWA HERO */
-        .wayang-hero-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 20px;
-            margin-bottom: 20px;
-            z-index: 3;
-        }
-
-        .wayang-icon {
-            width: 80px;
-            height: 120px;
-            fill: var(--maroon);
-            filter: drop-shadow(2px 4px 8px rgba(58,37,24,0.3));
-            animation: wayangSwing 4s ease-in-out infinite alternate;
-        }
-
-        /* HERO CONTENT & TYPOGRAPHY */
-        .hero-content {
-            position: relative;
-            z-index: 5;
-        }
-
-        .subtitle {
-            font-family: 'Cinzel', serif;
-            color: var(--brown-dark);
-            letter-spacing: 6px;
-            font-size: 0.95rem;
-            text-transform: uppercase;
-            margin-bottom: 12px;
-            font-weight: 700;
-        }
-
-        .title {
-            font-family: 'Playfair Display', serif;
-            font-size: clamp(2.8rem, 8vw, 5.5rem);
-            color: var(--maroon);
-            text-shadow: 0 0 15px rgba(184, 146, 65, 0.3);
-            margin-bottom: 5px;
-            font-style: italic;
-            font-weight: 600;
-        }
-
-        .and-text {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.8rem;
-            color: var(--gold-vintage);
-            margin: 5px 0 12px;
-            font-style: italic;
-        }
-
-        .date-badge {
-            border-top: 2px solid var(--maroon);
-            border-bottom: 2px solid var(--maroon);
-            padding: 8px 30px;
-            font-family: 'Cinzel', serif;
-            color: var(--maroon);
-            margin-bottom: 30px;
-            display: inline-block;
-            letter-spacing: 3px;
-            font-weight: 700;
-            background: rgba(244, 235, 217, 0.6);
-            backdrop-filter: blur(4px);
-        }
-
-        .btn-vintage {
-            display: inline-flex;
-            align-items: center;
-            gap: 12px;
-            padding: 15px 40px;
-            background: linear-gradient(135deg, var(--maroon) 0%, var(--brown-dark) 100%);
-            color: var(--bg-vintage);
-            font-weight: 600;
-            text-decoration: none;
-            border-radius: 4px;
-            border: 1px solid var(--gold-vintage);
-            box-shadow: 0 6px 20px rgba(107, 29, 29, 0.4);
-            cursor: pointer;
-            font-family: 'Cinzel', serif;
-            letter-spacing: 2px;
-            transition: all 0.3s ease;
-        }
-
-        .btn-vintage:hover {
-            transform: translateY(-3px) scale(1.02);
-            box-shadow: 0 10px 25px rgba(107, 29, 29, 0.6);
-        }
-
-        /* MUSIC BUTTON FLOATING */
-        .music-btn {
+        /* VINTAGE BORDER FRAME */
+        .frame-ornament-top, .frame-ornament-bottom {
             position: fixed;
-            bottom: 25px;
-            right: 25px;
-            width: 52px; height: 52px;
-            background: var(--maroon);
-            color: var(--gold-glow);
-            border: 2px solid var(--gold-vintage);
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 1.3rem;
-            cursor: pointer;
-            z-index: 99;
-            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
-        }
-
-        .music-btn.playing {
-            animation: spinMusic 4s linear infinite;
-        }
-
-        /* SECTIONS SCROLL */
-        .section {
-            padding: 90px 20px;
-            max-width: 900px;
-            margin: 0 auto;
-            position: relative;
-            z-index: 5;
-            opacity: 0;
-            transform: translateY(40px);
-            transition: all 0.8s ease-out;
-        }
-
-        .section.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .section-title {
-            font-family: 'Playfair Display', serif;
-            color: var(--maroon);
-            font-size: 2.3rem;
-            margin-bottom: 8px;
-            font-style: italic;
-        }
-
-        .divider {
-            width: 90px;
-            height: 2px;
-            background: linear-gradient(90deg, transparent, var(--gold-vintage), transparent);
-            margin: 0 auto 35px;
-        }
-
-        /* CARD FRAME UNTUK FOTO MEMPELAI */
-        .couple-grid {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            align-items: center;
-            gap: 35px;
-            margin-top: 20px;
-        }
-
-        .card {
-            background: var(--bg-card);
-            border: 2px solid var(--gold-vintage);
-            padding: 20px;
-            border-radius: 8px;
-            max-width: 300px;
-            box-shadow: 0 10px 25px rgba(58,37,24,0.15);
-            transition: transform 0.4s ease;
-        }
-
-        .card:hover {
-            transform: translateY(-8px);
-        }
-
-        .photo-frame {
+            left: 50%;
+            transform: translateX(-50%);
             width: 100%;
-            height: 300px;
-            background-color: var(--bg-vintage);
-            border: 1px solid var(--gold-vintage);
-            border-radius: 6px;
+            max-width: 480px;
+            height: 40px;
+            z-index: 20;
+            pointer-events: none;
+            background-size: contain;
+            background-repeat: repeat-x;
+        }
+        .frame-ornament-top { top: 0; border-top: 3px solid var(--gold-heritage); }
+        .frame-ornament-bottom { bottom: 0; border-bottom: 3px solid var(--gold-heritage); }
+
+        /* COVER OVERLAY (GATE OPENING) */
+        .cover-overlay {
+            position: fixed;
+            top: 0; left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: 480px;
+            height: 100vh;
+            background: linear-gradient(180deg, #1c0b05 0%, #0a0503 100%);
+            z-index: 999;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            margin-bottom: 15px;
-            color: var(--maroon);
+            padding: 30px;
+            text-align: center;
+            border-left: 1px solid var(--gold-heritage);
+            border-right: 1px solid var(--gold-heritage);
         }
 
-        .photo-frame i {
-            font-size: 4rem;
-            margin-bottom: 10px;
-            color: var(--gold-vintage);
+        .wayang-3d-glow {
+            width: 180px;
+            height: 240px;
+            filter: drop-shadow(0 0 20px var(--gold-heritage));
+            animation: float3D 4s ease-in-out infinite alternate;
         }
 
-        .card h3 {
+        .cover-title {
             font-family: 'Playfair Display', serif;
-            color: var(--maroon);
-            font-size: 1.4rem;
-            margin-bottom: 6px;
+            font-size: 3rem;
+            color: #ffffff;
+            text-shadow: 0 0 20px var(--gold-heritage);
+            margin: 15px 0;
+            font-style: italic;
         }
 
-        /* EVENT BOX */
-        .event-box {
+        .btn-open {
+            margin-top: 25px;
+            padding: 16px 40px;
+            background: linear-gradient(135deg, var(--maroon-royal), var(--maroon-dark));
+            color: var(--gold-glow);
+            font-family: 'Cinzel', serif;
+            font-size: 0.95rem;
+            letter-spacing: 3px;
+            border: 1px solid var(--gold-heritage);
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 0 25px rgba(212, 175, 55, 0.4);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .btn-open:hover {
+            transform: scale(1.08);
+            box-shadow: 0 0 40px var(--gold-glow);
+        }
+
+        /* SECTIONS STYLING */
+        .section {
+            padding: 80px 25px;
+            text-align: center;
+            position: relative;
+        }
+
+        .section-header {
+            margin-bottom: 40px;
+        }
+
+        .sub-heading {
+            font-family: 'Cinzel Decorative', cursive;
+            font-size: 0.8rem;
+            color: var(--gold-heritage);
+            letter-spacing: 4px;
+            margin-bottom: 8px;
+        }
+
+        .main-heading {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.3rem;
+            color: #fff;
+            font-style: italic;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.8);
+        }
+
+        .divider-ornament {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin: 15px 0;
+            color: var(--gold-heritage);
+        }
+        .divider-ornament::before, .divider-ornament::after {
+            content: '';
+            width: 50px;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--gold-heritage), transparent);
+        }
+
+        /* 3D TILT COUPLE CARDS */
+        .couple-card-3d {
+            background: linear-gradient(145deg, rgba(30,15,8,0.9), rgba(15,8,5,0.95));
+            border: 1px solid var(--gold-heritage);
+            border-radius: 20px;
+            padding: 30px 20px;
+            margin-bottom: 35px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.7);
+            transform-style: preserve-3d;
+            transition: transform 0.5s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .avatar-box {
+            width: 140px;
+            height: 140px;
+            margin: 0 auto 20px;
+            border-radius: 50%;
+            border: 2px solid var(--gold-heritage);
+            padding: 6px;
+            background: var(--maroon-dark);
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.3);
+        }
+
+        .avatar-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+
+        /* COUNTDOWN TIMER STYLING */
+        .timer-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+            margin: 30px 0;
+        }
+
+        .timer-box {
+            background: rgba(122, 18, 18, 0.4);
+            border: 1px solid var(--gold-heritage);
+            border-radius: 12px;
+            padding: 15px 5px;
+            backdrop-filter: blur(5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.4);
+        }
+
+        .timer-number {
+            font-family: 'Cinzel', serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--gold-glow);
+        }
+
+        .timer-label {
+            font-size: 0.7rem;
+            color: var(--text-light);
+            letter-spacing: 1px;
+            margin-top: 4px;
+        }
+
+        /* EVENT CARD */
+        .event-card {
             background: var(--bg-card);
-            border: 1px solid var(--gold-vintage);
-            border-radius: 8px;
-            padding: 28px;
-            margin: 20px 0;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            border: 1px solid var(--gold-heritage);
+            border-radius: 16px;
+            padding: 30px 20px;
+            margin-bottom: 25px;
+            position: relative;
         }
 
-        footer {
-            padding: 35px;
-            background: var(--brown-dark);
-            color: var(--bg-vintage);
+        .btn-action {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 28px;
+            background: var(--gold-heritage);
+            color: var(--bg-dark);
+            font-weight: 700;
             font-size: 0.85rem;
-            border-top: 3px solid var(--gold-vintage);
+            text-decoration: none;
+            border-radius: 25px;
+            margin-top: 15px;
+            box-shadow: 0 5px 15px rgba(212, 175, 55, 0.3);
+            transition: transform 0.3s ease;
+        }
+        .btn-action:hover { transform: translateY(-3px); }
+
+        /* DIGITAL ENVELOPE / REKENING */
+        .rekening-box {
+            background: rgba(255,255,255,0.03);
+            border: 1px dashed var(--gold-heritage);
+            border-radius: 12px;
+            padding: 20px;
+            margin: 15px 0;
         }
 
-        /* ANIMATIONS */
-        @keyframes floatSparkle {
-            0% { transform: translateY(100vh) scale(0); opacity: 0; }
-            50% { opacity: 0.8; }
-            100% { transform: translateY(-10vh) scale(1.2); opacity: 0; }
+        .btn-copy {
+            background: var(--maroon-royal);
+            color: var(--gold-glow);
+            border: 1px solid var(--gold-heritage);
+            padding: 8px 18px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            margin-top: 10px;
         }
 
-        @keyframes jogloZoom {
-            0% { transform: scale(1); }
-            100% { transform: scale(1.06); }
+        /* FLOATING MUSIC CONTROLLER */
+        .music-btn {
+            position: fixed;
+            bottom: 25px;
+            right: max(20px, calc(50vw - 220px));
+            width: 50px; height: 50px;
+            background: var(--maroon-royal);
+            color: var(--gold-glow);
+            border: 2px solid var(--gold-heritage);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.2rem;
+            cursor: pointer;
+            z-index: 100;
+            box-shadow: 0 0 20px rgba(0,0,0,0.8);
         }
+        .music-btn.playing { animation: rotateDisc 5s linear infinite; }
 
-        @keyframes wayangSwing {
-            0% { transform: rotate(-3deg); }
-            100% { transform: rotate(3deg); }
+        @keyframes float3D {
+            0% { transform: translateY(0) rotate(0deg); }
+            100% { transform: translateY(-15px) rotate(3deg); }
         }
-
-        @keyframes spinMusic {
-            100% { transform: rotate(360deg); }
-        }
+        @keyframes rotateDisc { 100% { transform: rotate(360deg); } }
     </style>
 </head>
 <body>
 
-    <!-- PARTIKEL EMAS -->
-    <div class="sparkle-container" id="sparkles"></div>
+    <!-- 3D MOTION BACKGROUND CANVAS (THREE.JS) -->
+    <canvas id="webgl-canvas"></canvas>
+
+    <!-- BINGKAI ORNAMEN EMAS -->
+    <div class="frame-ornament-top"></div>
+    <div class="frame-ornament-bottom"></div>
 
     <!-- AUDIO PLAYER -->
     <audio id="bgMusic" loop>
         <source src="https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3" type="audio/mpeg">
     </audio>
 
-    <!-- TOMBOL MUSIK -->
     <div class="music-btn" id="musicToggle" onclick="toggleMusic()">
         <i class="fas fa-compact-disc"></i>
     </div>
 
-    <!-- HERO SECTION -->
-    <section class="hero">
-
-        <!-- SILUET JOGLO SVG -->
-        <svg class="joglo-bg" viewBox="0 0 500 300">
-            <path d="M250 20 L450 200 L50 200 Z" fill="none" stroke="#6b1d1d" stroke-width="4"/>
-            <path d="M250 50 L400 190 L100 190 Z" fill="none" stroke="#3a2518" stroke-width="2"/>
-            <rect x="180" y="200" width="140" height="100" fill="none" stroke="#6b1d1d" stroke-width="3"/>
+    <!-- COVER / GATE PEMBUKA (3D INTRO) -->
+    <div class="cover-overlay" id="cover">
+        <!-- WAYANG GUNUNGAN 3D GLOW SVG -->
+        <svg class="wayang-3d-glow" viewBox="0 0 200 300" fill="none" stroke="#d4af37" stroke-width="2">
+            <path d="M100 10 L180 250 C180 280, 150 290, 100 290 C50 290, 20 280, 20 250 Z" fill="#7a1212" opacity="0.6"/>
+            <path d="M100 30 L160 240 M100 30 L40 240" stroke="#ffe680" stroke-width="1.2"/>
+            <circle cx="100" cy="150" r="35" stroke="#d4af37"/>
+            <path d="M100 115 L100 185 M65 150 L135 150" stroke="#ffe680"/>
         </svg>
 
-        <!-- ORNAMEN WAYANG VEKTOR HERITAGE -->
-        <div class="wayang-hero-container">
-            <svg class="wayang-icon" viewBox="0 0 100 100">
-                <circle cx="50" cy="30" r="18" fill="none" stroke="#6b1d1d" stroke-width="3"/>
-                <path d="M50 48 L50 90 M30 60 L70 60" stroke="#3a2518" stroke-width="4"/>
-            </svg>
-        </div>
+        <p class="sub-heading">THE WEDDING OF</p>
+        <h1 class="cover-title">Danang<br><span style="font-size: 1.8rem; color: var(--gold-heritage);">&</span><br>Partner</h1>
+        
+        <p style="font-size: 0.85rem; color: var(--text-light); margin-top: 15px;">Kepada Yth. Bapak/Ibu/Saudara/i</p>
+        <p style="font-weight: 700; color: var(--gold-glow); font-size: 1.1rem; margin-top: 5px;">Tamu Undangan</p>
 
-        <!-- HERO CONTENT -->
-        <div class="hero-content">
-            <p class="subtitle">THE WEDDING OF</p>
-            <h1 class="title">Danang</h1>
-            <div class="and-text">dan</div>
-            <h1 class="title">Partner</h1>
-            <br>
-            <div class="date-badge">SABTU, 12 DESEMBER 2026</div>
-            <br>
-            <a href="#couple" class="btn-vintage" onclick="playMusic()">
-                <span>BUKA UNDANGAN</span>
-                <i class="fas fa-chevron-down"></i>
-            </a>
-        </div>
-    </section>
+        <button class="btn-open" onclick="openInvitation()">
+            <i class="fas fa-envelope-open-text"></i> BUKA UNDANGAN
+        </button>
+    </div>
 
-    <!-- SECTION MEMPELAI -->
-    <section id="couple" class="section">
-        <h2 class="section-title">Mempelai Pengantin</h2>
-        <div class="divider"></div>
+    <!-- MAIN APP CONTENT -->
+    <div class="app-wrapper">
 
-        <div class="couple-grid">
-            <!-- MEMPELAI PRIA -->
-            <div class="card">
-                <div class="photo-frame">
-                    <i class="fas fa-user-tie"></i>
-                    <span style="font-family: 'Cinzel', serif; font-size: 0.85rem; letter-spacing: 1px;">FOTO DANANG</span>
+        <!-- HERO SECTION -->
+        <section class="section" style="padding-top: 70px;">
+            <p class="sub-heading" data-aos="fade-down">WALIMATUL 'URSY</p>
+            <h1 class="main-heading" data-aos="zoom-in" data-aos-delay="200">Danang & Partner</h1>
+            <div class="divider-ornament"><i class="fas fa-crown"></i></div>
+            
+            <p style="font-size: 0.85rem; line-height: 1.7; font-style: italic; color: #ccc;" data-aos="fade-up" data-aos-delay="400">
+                "Dan di antara tanda-tanda (kebesaran)-Nya ialah Dia menciptakan pasangan-pasangan untukmu dari jenismu sendiri, agar kamu cenderung dan merasa tenteram kepadanya..."
+            </p>
+            <p style="font-size: 0.8rem; color: var(--gold-heritage); font-weight: 600; margin-top: 8px;" data-aos="fade-up" data-aos-delay="500">(QS. Ar-Rum: 21)</p>
+        </section>
+
+        <!-- COUNTDOWN TIMER SECTION -->
+        <section class="section">
+            <p class="sub-heading" data-aos="fade-up">MENUJU HARI BAHAGIA</p>
+            <div class="timer-grid" data-aos="zoom-in" data-aos-delay="200">
+                <div class="timer-box">
+                    <div class="timer-number" id="days">00</div>
+                    <div class="timer-label">HARI</div>
                 </div>
-                <h3>Danang Ageng P.</h3>
-                <p>Putra dari Bapak [Nama]<br>& Ibu [Nama]</p>
+                <div class="timer-box">
+                    <div class="timer-number" id="hours">00</div>
+                    <div class="timer-label">JAM</div>
+                </div>
+                <div class="timer-box">
+                    <div class="timer-number" id="minutes">00</div>
+                    <div class="timer-label">MENIT</div>
+                </div>
+                <div class="timer-box">
+                    <div class="timer-number" id="seconds">00</div>
+                    <div class="timer-label">DETIK</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- COUPLE SECTION -->
+        <section class="section">
+            <div class="section-header" data-aos="fade-up">
+                <p class="sub-heading">PASANGAN MEMPELAI</p>
+                <h2 class="main-heading">Mempelai Pengantin</h2>
+                <div class="divider-ornament"><i class="fas fa-heart"></i></div>
+            </div>
+
+            <!-- MEMPELAI PRIA -->
+            <div class="couple-card-3d" data-aos="fade-up" data-aos-delay="200">
+                <div class="avatar-box">
+                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=400" alt="Mempelai Pria">
+                </div>
+                <h3 style="font-family: 'Playfair Display'; color: var(--gold-glow); font-size: 1.6rem;">Danang Ageng P.</h3>
+                <p style="font-size: 0.85rem; margin-top: 8px; color: var(--text-light);">Putra dari Bapak [Nama Bapak]<br>& Ibu [Nama Ibu]</p>
             </div>
 
             <!-- MEMPELAI WANITA -->
-            <div class="card">
-                <div class="photo-frame">
-                    <i class="fas fa-user-nurse"></i>
-                    <span style="font-family: 'Cinzel', serif; font-size: 0.85rem; letter-spacing: 1px;">FOTO WANITA</span>
+            <div class="couple-card-3d" data-aos="fade-up" data-aos-delay="400">
+                <div class="avatar-box">
+                    <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=400" alt="Mempelai Wanita">
                 </div>
-                <h3>[Nama Mempelai]</h3>
-                <p>Putri dari Bapak [Nama]<br>& Ibu [Nama]</p>
+                <h3 style="font-family: 'Playfair Display'; color: var(--gold-glow); font-size: 1.6rem;">[Nama Mempelai Wanita]</h3>
+                <p style="font-size: 0.85rem; margin-top: 8px; color: var(--text-light);">Putri dari Bapak [Nama Bapak]<br>& Ibu [Nama Ibu]</p>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- SECTION RANGKAIAN ACARA -->
-    <section class="section">
-        <h2 class="section-title">Rangkaian Acara</h2>
-        <div class="divider"></div>
+        <!-- EVENT SECTION -->
+        <section class="section">
+            <div class="section-header" data-aos="fade-up">
+                <p class="sub-heading">RANGKAIAN ACARA</p>
+                <h2 class="main-heading">Waktu & Lokasi</h2>
+                <div class="divider-ornament"><i class="fas fa-calendar-alt"></i></div>
+            </div>
 
-        <div class="event-box">
-            <h3 style="color: var(--maroon); font-family: 'Playfair Display'; font-size: 1.5rem;">AKAD NIKAH</h3>
-            <p style="margin: 10px 0;">Pukul 08.00 WIB - Selesai</p>
-            <p><strong>Pendopo Agung Keraton</strong><br>Jl. Keraton No. 1, Yogyakarta</p>
-        </div>
+            <div class="event-card" data-aos="flip-left" data-aos-delay="200">
+                <h3 style="font-family: 'Playfair Display'; color: var(--gold-glow); font-size: 1.5rem;">AKAD NIKAH</h3>
+                <p style="margin: 12px 0; font-size: 0.9rem;"><i class="far fa-clock" style="color: var(--gold-heritage);"></i> Sabtu, 12 Desember 2026<br>Pukul 08.00 WIB - Selesai</p>
+                <p style="font-size: 0.85rem;"><i class="fas fa-map-marker-alt" style="color: var(--gold-heritage);"></i> Pendopo Agung Keraton Yogyakarta</p>
+                <a href="https://maps.google.com" target="_blank" class="btn-action"><i class="fas fa-location-arrow"></i> GOOGLE MAPS</a>
+            </div>
 
-        <div class="event-box">
-            <h3 style="color: var(--maroon); font-family: 'Playfair Display'; font-size: 1.5rem;">RESEPSI</h3>
-            <p style="margin: 10px 0;">Pukul 11.00 - 14.00 WIB</p>
-            <p><strong>Pendopo Agung Keraton</strong><br>Jl. Keraton No. 1, Yogyakarta</p>
-        </div>
-    </section>
+            <div class="event-card" data-aos="flip-right" data-aos-delay="400">
+                <h3 style="font-family: 'Playfair Display'; color: var(--gold-glow); font-size: 1.5rem;">RESEPSI</h3>
+                <p style="margin: 12px 0; font-size: 0.9rem;"><i class="far fa-clock" style="color: var(--gold-heritage);"></i> Sabtu, 12 Desember 2026<br>Pukul 11.00 - 14.00 WIB</p>
+                <p style="font-size: 0.85rem;"><i class="fas fa-map-marker-alt" style="color: var(--gold-heritage);"></i> Pendopo Agung Keraton Yogyakarta</p>
+                <a href="https://maps.google.com" target="_blank" class="btn-action"><i class="fas fa-location-arrow"></i> GOOGLE MAPS</a>
+            </div>
+        </section>
 
-    <footer>
-        <p>Terima Kasih atas Doa & Restu Anda</p>
-        <p style="margin-top: 5px; color: var(--gold-vintage); font-family: 'Cinzel', serif;">Danang & Partner Wedding</p>
-    </footer>
+        <!-- DIGITAL ENVELOPE / REKENING -->
+        <section class="section">
+            <div class="section-header" data-aos="fade-up">
+                <p class="sub-heading">AMPALAN DIGITAL</p>
+                <h2 class="main-heading">Tanda Kasih</h2>
+                <div class="divider-ornament"><i class="fas fa-gift"></i></div>
+            </div>
 
-    <!-- SCRIPT -->
+            <div class="rekening-box" data-aos="zoom-in">
+                <p style="font-size: 0.85rem; color: var(--gold-glow); font-weight: 600;">BANK BCA</p>
+                <p style="font-size: 1.2rem; font-weight: 700; margin: 5px 0; font-family: 'Cinzel';" id="rek1">1234 5678 90</p>
+                <p style="font-size: 0.8rem;">a.n Danang Ageng P.</p>
+                <button class="btn-copy" onclick="copyRek('1234567890')"><i class="far fa-copy"></i> Salin Rekening</button>
+            </div>
+        </section>
+
+        <!-- FOOTER -->
+        <footer class="section" style="background: #050201; border-top: 1px solid var(--gold-heritage);">
+            <p style="font-size: 0.85rem; color: #aaa;">Merupakan suatu kehormatan dan kebahagiaan bagi kami apabila Bapak/Ibu/Saudara/i berkenan hadir.</p>
+            <p style="font-family: 'Cinzel', serif; color: var(--gold-heritage); margin-top: 20px; font-size: 1rem;">DANANG & PARTNER</p>
+        </footer>
+
+    </div>
+
+    <!-- SCRIPT ENGINE (THREE.JS, LENIS SMOOTH SCROLL, GSAP) -->
     <script>
-        // SPARKLES EMAS
-        const sparkleContainer = document.getElementById('sparkles');
-        for (let i = 0; i < 30; i++) {
-            let sparkle = document.createElement('div');
-            sparkle.classList.add('sparkle');
-            sparkle.style.left = Math.random() * 100 + '%';
-            sparkle.style.animationDelay = Math.random() * 7 + 's';
-            sparkleContainer.appendChild(sparkle);
+        // 1. THREE.JS 3D BACKGROUND PARTICLES ENGINE
+        const canvas = document.getElementById('webgl-canvas');
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: true });
+
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+        // Partikel Emas Melayang (Gold Dust)
+        const particlesCount = 200;
+        const positions = new Float32Array(particlesCount * 3);
+        const scales = new Float32Array(particlesCount);
+
+        for (let i = 0; i < particlesCount * 3; i += 3) {
+            positions[i] = (Math.random() - 0.5) * 15;
+            positions[i + 1] = (Math.random() - 0.5) * 15;
+            positions[i + 2] = (Math.random() - 0.5) * 15;
         }
 
-        // ANIMASI SCROLL REVEAL
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                }
-            });
-        }, { threshold: 0.1 });
+        const geometry = new THREE.BufferGeometry();
+        geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
 
-        document.querySelectorAll('.section').forEach(section => {
-            observer.observe(section);
+        const material = new THREE.PointsMaterial({
+            color: 0xd4af37,
+            size: 0.08,
+            transparent: true,
+            opacity: 0.8,
+            blending: THREE.AdditiveBlending
         });
 
-        // AUDIO
+        const particlesMesh = new THREE.Points(geometry, material);
+        scene.add(particlesMesh);
+
+        camera.position.z = 5;
+
+        // Render Loop 3D
+        function animate3D() {
+            requestAnimationFrame(animate3D);
+            particlesMesh.rotation.y += 0.001;
+            particlesMesh.rotation.x += 0.0005;
+            renderer.render(scene, camera);
+        }
+        animate3D();
+
+        // Resize Listener
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+
+        // 2. LENIS SMOOTH SCROLL
+        const lenis = new Lenis({
+            duration: 1.2,
+            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+            smoothWheel: true
+        });
+
+        function raf(time) {
+            lenis.raf(time);
+            requestAnimationFrame(raf);
+        }
+        requestAnimationFrame(raf);
+
+        // 3. AOS INITIALIZE
+        AOS.init({ duration: 1000, once: true });
+
+        // 4. COUNTDOWN TIMER REALTIME
+        const targetDate = new Date("December 12, 2026 08:00:00").getTime();
+        setInterval(() => {
+            const now = new Date().getTime();
+            const difference = targetDate - now;
+
+            if (difference > 0) {
+                document.getElementById("days").innerText = Math.floor(difference / (1000 * 60 * 60 * 24));
+                document.getElementById("hours").innerText = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                document.getElementById("minutes").innerText = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+                document.getElementById("seconds").innerText = Math.floor((difference % (1000 * 60)) / 1000);
+            }
+        }, 1000);
+
+        // 5. AUDIO & COVER OPENING
         const audio = document.getElementById('bgMusic');
         const musicBtn = document.getElementById('musicToggle');
         let isPlaying = false;
 
-        function playMusic() {
+        function openInvitation() {
+            gsap.to("#cover", {
+                y: "-100%",
+                duration: 1.2,
+                ease: "power4.inOut",
+                onComplete: () => {
+                    document.getElementById("cover").style.display = "none";
+                    AOS.refresh();
+                }
+            });
+
             audio.play().then(() => {
                 isPlaying = true;
                 musicBtn.classList.add('playing');
-            }).catch(err => {
-                console.log("Autoplay ditahan.");
-            });
+            }).catch(e => console.log("Autoplay blocked"));
         }
 
         function toggleMusic() {
@@ -462,6 +582,11 @@
                 musicBtn.classList.add('playing');
                 isPlaying = true;
             }
+        }
+
+        function copyRek(no) {
+            navigator.clipboard.writeText(no);
+            alert("Nomor rekening berhasil disalin!");
         }
     </script>
 </body>
