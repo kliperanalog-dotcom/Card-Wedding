@@ -12,14 +12,12 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
     <style>
-        /* ==================== STYLESHEET & ANIMATIONS ==================== */
         :root {
             --bg-dark: #0d1f12;
             --bg-brown: #1c130d;
             --cream: #f9f5eb;
             --gold: #d4af37;
             --gold-light: #f3e5ab;
-            --dark-brown: #3e2723;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -45,86 +43,7 @@
             z-index: 2;
         }
 
-        /* CINEMATIC GAPURA & CURTAIN OPENING */
-        .curtain-container {
-            position: fixed;
-            inset: 0;
-            z-index: 999;
-            pointer-events: none;
-            display: flex;
-        }
-
-        .curtain {
-            width: 50vw;
-            height: 100vh;
-            background-color: var(--bg-brown);
-            background-image: radial-gradient(circle at center, rgba(212,175,55,0.15) 0%, transparent 70%);
-            border-bottom: 5px solid var(--gold);
-            transition: transform 1.8s cubic-bezier(0.77, 0, 0.175, 1);
-            position: relative;
-            display: flex;
-            align-items: center;
-        }
-
-        .curtain-left {
-            border-right: 3px solid var(--gold);
-            justify-content: flex-end;
-        }
-
-        .curtain-right {
-            border-left: 3px solid var(--gold);
-            justify-content: flex-start;
-        }
-
-        /* Gapura & Pohon Ornament di Tirai */
-        .curtain-ornament {
-            font-size: 8rem;
-            color: var(--gold);
-            opacity: 0.3;
-            filter: drop-shadow(0 0 15px var(--gold));
-        }
-
-        .curtain-open .curtain-left { transform: translateX(-100%); }
-        .curtain-open .curtain-right { transform: translateX(100%); }
-
-        /* PRELOADER INTRO SCREEN */
-        .preloader {
-            position: fixed;
-            inset: 0;
-            background: var(--bg-dark);
-            z-index: 1000;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            transition: opacity 1s ease, visibility 1s ease;
-        }
-
-        .preloader.fade-out {
-            opacity: 0;
-            visibility: hidden;
-        }
-
-        .monogram {
-            width: 90px;
-            height: 90px;
-            border: 2px solid var(--gold);
-            transform: rotate(45deg);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin-bottom: 2rem;
-            animation: pulseGlow 2s infinite alternate;
-        }
-
-        .monogram span {
-            transform: rotate(-45deg);
-            font-family: 'Cinzel Decorative', serif;
-            font-size: 1.5rem;
-            color: var(--gold-light);
-        }
-
-        /* HERO SECTION WITH ANIMATED NATURE & WAYANG */
+        /* HERO SECTION */
         .hero {
             min-height: 100vh;
             display: flex;
@@ -137,48 +56,59 @@
             overflow: hidden;
         }
 
-        /* Wayang & Gunungan Floating Elements */
-        .wayang-bg {
+        /* GAPURA GERBANG UTAMA (Dibuat Pas Background) */
+        .gapura-frame {
             position: absolute;
-            bottom: -20px;
-            width: 140px;
-            opacity: 0.35;
-            filter: drop-shadow(0 0 10px rgba(212,175,55,0.4));
-            animation: floatWayang 4s ease-in-out infinite alternate;
-            z-index: 3;
+            inset: 0;
+            border: 12px solid var(--gold);
+            box-shadow: inset 0 0 50px rgba(0,0,0,0.8);
+            pointer-events: none;
+            z-index: 6;
         }
 
-        .wayang-left { left: 5%; }
-        .wayang-right { right: 5%; transform: scaleX(-1); animation-delay: 2s; }
-
-        .gunungan-bg {
+        /* Gunungan Wayang Center */
+        .gunungan-svg {
             position: absolute;
             bottom: 0;
-            width: 220px;
-            opacity: 0.25;
+            width: clamp(220px, 35vw, 420px);
+            opacity: 0.35;
             z-index: 1;
-            animation: pulseGunungan 6s ease-in-out infinite alternate;
+            animation: pulseGunungan 5s ease-in-out infinite alternate;
+            filter: drop-shadow(0 0 15px var(--gold));
         }
 
-        /* Burung-burung Terbang (Flying Birds) */
+        /* Wayang Samping Kiri & Kanan */
+        .wayang-svg {
+            position: absolute;
+            bottom: 5%;
+            width: clamp(100px, 18vw, 200px);
+            opacity: 0.4;
+            z-index: 3;
+            animation: floatWayang 4s ease-in-out infinite alternate;
+            filter: drop-shadow(0 0 10px var(--gold));
+        }
+        .wayang-left { left: 3%; }
+        .wayang-right { right: 3%; transform: scaleX(-1); animation-delay: 2s; }
+
+        /* Burung-burung Terbang */
         .bird-container {
             position: absolute;
             top: 20%;
-            left: -10%;
+            left: -15%;
             z-index: 4;
-            animation: flyBirds 15s linear infinite;
+            animation: flyBirds 14s linear infinite;
         }
 
         .bird {
             color: var(--gold-light);
-            font-size: 1rem;
-            opacity: 0.6;
+            font-size: 1.2rem;
+            opacity: 0.7;
             margin-right: 15px;
             display: inline-block;
             animation: flapWings 0.8s ease-in-out infinite alternate;
         }
 
-        /* Daun Berguguran (Floating Leaves) */
+        /* Daun Berguguran */
         .leaf {
             position: absolute;
             top: -10%;
@@ -187,15 +117,6 @@
             opacity: 0.7;
             z-index: 4;
             animation: fallLeaves 10s linear infinite;
-        }
-
-        /* Kabut Bergerak (Moving Fog) */
-        .fog-layer {
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(90deg, transparent, rgba(212,175,55,0.05), transparent);
-            z-index: 2;
-            animation: moveFog 8s ease-in-out infinite alternate;
         }
 
         /* HERO CONTENT */
@@ -217,7 +138,7 @@
             font-family: 'Cinzel Decorative', serif;
             font-size: clamp(2.2rem, 6vw, 4.5rem);
             color: var(--gold);
-            text-shadow: 0 4px 20px rgba(0,0,0,0.9), 0 0 10px rgba(212,175,55,0.4);
+            text-shadow: 0 4px 20px rgba(0,0,0,0.9), 0 0 15px rgba(212,175,55,0.5);
             margin-bottom: 15px;
             animation: textGlow 3s ease-in-out infinite alternate;
         }
@@ -254,7 +175,7 @@
             box-shadow: 0 0 35px rgba(212, 175, 55, 0.9);
         }
 
-        /* SECTION COMMON STYLES */
+        /* SECTION STYLES */
         .section {
             padding: 90px 20px;
             max-width: 1000px;
@@ -277,7 +198,6 @@
             margin: 0 auto 40px;
         }
 
-        /* COUPLE SECTION */
         .couple-grid {
             display: flex;
             flex-wrap: wrap;
@@ -294,10 +214,7 @@
             border-radius: 15px;
             max-width: 320px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.7);
-            transition: transform 0.4s ease;
         }
-
-        .card:hover { transform: translateY(-8px); }
 
         .card img {
             width: 100%;
@@ -319,17 +236,14 @@
             font-family: 'Great Vibes', cursive;
             font-size: 4.5rem;
             color: var(--gold);
-            text-shadow: 0 0 15px rgba(212,175,55,0.5);
         }
 
-        /* EVENT DETAILS BOX */
         .event-box {
             background: rgba(28, 19, 13, 0.9);
             border: 1px solid var(--gold);
             border-radius: 12px;
             padding: 30px;
             margin: 20px 0;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.5);
         }
 
         footer {
@@ -338,24 +252,17 @@
             color: var(--gold-light);
             font-size: 0.85rem;
             border-top: 1px solid var(--gold);
-            position: relative;
-            z-index: 5;
         }
 
         /* KEYFRAME ANIMATIONS */
-        @keyframes pulseGlow {
-            0% { box-shadow: 0 0 15px rgba(212,175,55,0.2); }
-            100% { box-shadow: 0 0 35px rgba(212,175,55,0.7); }
-        }
-
         @keyframes floatWayang {
-            0% { transform: translateY(0) rotate(0deg); }
-            100% { transform: translateY(-15px) rotate(2deg); }
+            0% { transform: translateY(0); }
+            100% { transform: translateY(-15px); }
         }
 
         @keyframes pulseGunungan {
-            0% { transform: scale(1); opacity: 0.2; }
-            100% { transform: scale(1.05); opacity: 0.35; }
+            0% { transform: scale(1); opacity: 0.3; }
+            100% { transform: scale(1.06); opacity: 0.5; }
         }
 
         @keyframes flyBirds {
@@ -366,17 +273,12 @@
 
         @keyframes flapWings {
             0% { transform: translateY(0); }
-            100% { transform: translateY(-5px); }
+            100% { transform: translateY(-6px); }
         }
 
         @keyframes fallLeaves {
             0% { top: -10%; transform: translateX(0) rotate(0deg); }
             100% { top: 110%; transform: translateX(100px) rotate(360deg); }
-        }
-
-        @keyframes moveFog {
-            0% { transform: translateX(-5%); }
-            100% { transform: translateX(5%); }
         }
 
         @keyframes textGlow {
@@ -390,54 +292,40 @@
     <!-- GOLDEN DUST CANVAS -->
     <canvas id="particle-canvas"></canvas>
 
-    <!-- CINEMATIC PRELOADER -->
-    <div class="preloader" id="preloader">
-        <div class="monogram">
-            <span>D & P</span>
-        </div>
-        <p style="font-family: 'Cinzel', serif; color: var(--gold-light); letter-spacing: 2px;">MEMUAT UNDANGAN...</p>
-    </div>
-
-    <!-- GAPURA & POHON CURTAIN LAYER -->
-    <div class="curtain-container" id="curtain-container">
-        <div class="curtain curtain-left">
-            <i class="fas fa-torii-gate curtain-ornament" style="margin-right: 20px;"></i>
-        </div>
-        <div class="curtain curtain-right">
-            <i class="fas fa-torii-gate curtain-ornament" style="margin-left: 20px; transform: scaleX(-1);"></i>
-        </div>
-    </div>
-
     <!-- HERO SECTION -->
     <section class="hero">
-        <!-- Animated Wayang & Gunungan -->
-        <svg class="gunungan-bg" viewBox="0 0 100 150">
-            <path d="M50 0 L100 150 L0 150 Z" fill="url(#gold-grad)" />
-            <defs>
-                <linearGradient id="gold-grad" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" stop-color="#d4af37" />
-                    <stop offset="100%" stop-color="#1c130d" />
-                </linearGradient>
-            </defs>
+        <div class="gapura-frame"></div>
+
+        <!-- Gunungan SVG Asli -->
+        <svg class="gunungan-svg" viewBox="0 0 200 300">
+            <path d="M100 10 L190 280 L10 280 Z" fill="none" stroke="#d4af37" stroke-width="4"/>
+            <path d="M100 30 L170 270 L30 270 Z" fill="none" stroke="#f3e5ab" stroke-width="2"/>
+            <circle cx="100" cy="150" r="30" fill="none" stroke="#d4af37" stroke-width="3"/>
+            <path d="M100 80 L100 220 M60 150 L140 150" stroke="#d4af37" stroke-width="3"/>
         </svg>
 
-        <i class="fas fa-[#] wayang-bg wayang-left fa-vihara"></i>
-        <i class="fas fa-[#] wayang-bg wayang-right fa-vihara"></i>
+        <!-- Wayang Samping Kiri & Kanan (SVG) -->
+        <svg class="wayang-svg wayang-left" viewBox="0 0 100 200">
+            <path d="M50 20 C30 50 20 80 50 120 C80 80 70 50 50 20 Z" fill="none" stroke="#d4af37" stroke-width="3"/>
+            <line x1="50" y1="120" x2="50" y2="190" stroke="#d4af37" stroke-width="4"/>
+        </svg>
 
-        <!-- Burung-burung Terbang -->
+        <svg class="wayang-svg wayang-right" viewBox="0 0 100 200">
+            <path d="M50 20 C30 50 20 80 50 120 C80 80 70 50 50 20 Z" fill="none" stroke="#d4af37" stroke-width="3"/>
+            <line x1="50" y1="120" x2="50" y2="190" stroke="#d4af37" stroke-width="4"/>
+        </svg>
+
+        <!-- Burung Terbang -->
         <div class="bird-container">
             <i class="fas fa-dove bird"></i>
             <i class="fas fa-dove bird" style="animation-delay: 0.2s;"></i>
             <i class="fas fa-dove bird" style="animation-delay: 0.4s;"></i>
         </div>
 
-        <!-- Daun-daun Gugur -->
+        <!-- Daun Gugur -->
         <i class="fas fa-leaf leaf" style="left: 15%; animation-duration: 8s;"></i>
         <i class="fas fa-leaf leaf" style="left: 45%; animation-duration: 12s; animation-delay: 2s;"></i>
         <i class="fas fa-leaf leaf" style="left: 75%; animation-duration: 10s; animation-delay: 4s;"></i>
-
-        <!-- Kabut -->
-        <div class="fog-layer"></div>
 
         <!-- Content -->
         <div class="hero-content">
@@ -445,10 +333,10 @@
             <h1 class="title">Danang & Partner</h1>
             <div class="date-badge">Sabtu, 12 Desember 2026</div>
             <br>
-            <button class="btn-royal" onclick="openInvitation()">
+            <a href="#couple" class="btn-royal">
                 <span>BUKA UNDANGAN</span>
-                <i class="fas fa-door-open"></i>
-            </button>
+                <i class="fas fa-chevron-down"></i>
+            </a>
         </div>
     </section>
 
@@ -506,33 +394,14 @@
         </div>
     </section>
 
-    <!-- FOOTER -->
     <footer>
         <p>Terima Kasih atas Doa & Restu Anda</p>
         <p style="margin-top: 5px; color: #888;">Danang & Partner Wedding</p>
     </footer>
 
-    <!-- JAVASCRIPT ANIMATIONS -->
+    <!-- JAVASCRIPT -->
     <script>
-        // 1. Preloader Fade Out
-        window.addEventListener('load', () => {
-            setTimeout(() => {
-                const preloader = document.getElementById('preloader');
-                if (preloader) preloader.classList.add('fade-out');
-            }, 1000);
-        });
-
-        // 2. Open Curtain / Gapura Opening Effect
-        function openInvitation() {
-            const curtain = document.getElementById('curtain-container');
-            if (curtain) {
-                curtain.classList.add('curtain-open');
-            }
-            // Smooth Scroll ke Section Mempelai
-            document.getElementById('couple').scrollIntoView({ behavior: 'smooth' });
-        }
-
-        // 3. Canvas Golden Dust Particles
+        // Canvas Golden Dust Particles
         const canvas = document.getElementById('particle-canvas');
         const ctx = canvas.getContext('2d');
 
