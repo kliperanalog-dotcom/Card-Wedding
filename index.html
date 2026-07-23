@@ -3,171 +3,255 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <!-- SEO Primary Meta Tags -->
     <title>Pernikahan Royal Jawa - Danang & Partner</title>
-    <meta name="title" content="Pernikahan Royal Jawa - Danang & Partner">
-    <meta name="description" content="Undangan Pernikahan Mewah Adat Jawa. Bergabunglah bersama kami dalam merayakan hari bahagia.">
-    <meta name="keywords" content="undangan pernikahan, wedding invitation, royal javanese wedding, pernikahan jawa mewah">
-    <meta name="robots" content="index, follow">
-    <meta name="theme-color" content="#0d1f12">
-
-    <!-- Open Graph / Facebook -->
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://username.github.io/wedding-invitation/">
-    <meta property="og:title" content="Pernikahan Royal Jawa - Danang & Partner">
-    <meta property="og:description" content="Undangan Pernikahan Mewah Adat Jawa.">
-    <meta property="og:image" content="assets/images/og-image.jpg">
-
-    <!-- Schema.org Structured Data -->
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "Event",
-      "name": "Pernikahan Danang & Partner",
-      "startDate": "2026-12-12T08:00",
-      "endDate": "2026-12-12T21:00",
-      "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
-      "eventStatus": "https://schema.org/EventScheduled",
-      "location": {
-        "@type": "Place",
-        "name": "Pendopo Agung Keraton",
-        "address": {
-          "@type": "PostalAddress",
-          "streetAddress": "Jl. Keraton No. 1",
-          "addressLocality": "Yogyakarta",
-          "postalCode": "55111",
-          "addressCountry": "ID"
-        }
-      }
-    }
-    </script>
-
+    
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Cinzel:wght@400;600;800&family=Great+Vibes&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
-    <!-- Third-Party CSS Libraries (CDN untuk GitHub Pages) -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lenis@1.0.42/dist/lenis.css">
-    <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Cinzel:wght@600;800&family=Great+Vibes&family=Plus+Jakarta+Sans:wght@300;400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/animation.css">
-    <link rel="stylesheet" href="css/responsive.css">
+    <style>
+        /* ==================== STYLESHEET UTAMA ==================== */
+        :root {
+            --bg-dark: #0d1f12;
+            --bg-brown: #1c130d;
+            --cream: #f9f5eb;
+            --gold: #d4af37;
+            --gold-light: #f3e5ab;
+            --dark-brown: #3e2723;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        
+        body {
+            background-color: var(--bg-dark);
+            color: var(--cream);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            text-align: center;
+            overflow-x: hidden;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+            background: linear-gradient(180deg, rgba(13,31,18,0.8) 0%, rgba(28,19,13,0.95) 100%), 
+                        url('https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=1200') center/cover no-repeat;
+            position: relative;
+        }
+
+        .subtitle {
+            font-family: 'Cinzel', serif;
+            color: var(--gold-light);
+            letter-spacing: 3px;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+
+        .title {
+            font-family: 'Cinzel Decorative', serif;
+            font-size: clamp(2rem, 5vw, 4rem);
+            color: var(--gold);
+            text-shadow: 0 4px 15px rgba(0,0,0,0.8);
+            margin-bottom: 15px;
+        }
+
+        .date-badge {
+            background: rgba(212, 175, 55, 0.15);
+            border: 1px solid var(--gold);
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-family: 'Cinzel', serif;
+            color: var(--gold-light);
+            margin-bottom: 30px;
+        }
+
+        .btn-royal {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 14px 32px;
+            background: linear-gradient(135deg, var(--gold) 0%, #aa7c11 100%);
+            color: #000;
+            font-weight: 700;
+            text-decoration: none;
+            border-radius: 30px;
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.5);
+            transition: 0.3s;
+        }
+
+        .btn-royal:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 30px rgba(212, 175, 55, 0.8);
+        }
+
+        /* Section Container */
+        .section {
+            padding: 80px 20px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            font-family: 'Cinzel Decorative', serif;
+            color: var(--gold);
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        .divider {
+            width: 80px;
+            height: 2px;
+            background: var(--gold);
+            margin: 0 auto 40px;
+        }
+
+        /* Couple Section */
+        .couple-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            gap: 40px;
+            margin-top: 30px;
+        }
+
+        .card {
+            background: rgba(28, 19, 13, 0.7);
+            border: 2px solid var(--gold);
+            padding: 25px;
+            border-radius: 15px;
+            max-width: 320px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        .card img {
+            width: 100%;
+            height: 320px;
+            object-fit: cover;
+            border-radius: 10px;
+            border: 1px solid var(--gold-light);
+            margin-bottom: 15px;
+        }
+
+        .card h3 {
+            font-family: 'Cinzel', serif;
+            color: var(--gold-light);
+            font-size: 1.3rem;
+            margin-bottom: 8px;
+        }
+
+        .and-symbol {
+            font-family: 'Great Vibes', cursive;
+            font-size: 4rem;
+            color: var(--gold);
+        }
+
+        /* Event Details */
+        .event-box {
+            background: var(--bg-brown);
+            border: 1px solid var(--gold);
+            border-radius: 12px;
+            padding: 30px;
+            margin: 20px 0;
+        }
+
+        /* Gift & QRIS */
+        .qris-img {
+            max-width: 200px;
+            border: 2px solid var(--gold);
+            border-radius: 10px;
+            margin: 15px 0;
+        }
+
+        footer {
+            padding: 30px;
+            background: #050806;
+            color: var(--gold-light);
+            font-size: 0.85rem;
+            border-top: 1px solid var(--gold);
+        }
+    </style>
 </head>
 <body>
 
-    <!-- CUSTOM CURSOR -->
-    <div class="custom-cursor" id="cursor"></div>
-    <div class="custom-cursor-follower" id="cursor-follower"></div>
+    <!-- HERO SECTION -->
+    <section class="hero">
+        <p class="subtitle">The Royal Wedding of</p>
+        <h1 class="title">Danang & Partner</h1>
+        <div class="date-badge">Sabtu, 12 Desember 2026</div>
+        <a href="#couple" class="btn-royal">
+            <span>BUKA UNDANGAN</span>
+            <i class="fas fa-chevron-down"></i>
+        </a>
+    </section>
 
-    <!-- CANVAS PARTICLES (GOLDEN DUST & FIREFLIES) -->
-    <canvas id="particle-canvas"></canvas>
+    <!-- MEMPELAI SECTION -->
+    <section id="couple" class="section">
+        <h2 class="section-title">Mempelai Pengantin</h2>
+        <div class="divider"></div>
+        <p style="font-style: italic; color: var(--gold-light);">"Maha Suci Allah yang telah menciptakan pasangan-pasangan semuanya..."</p>
 
-    <!-- CINEMATIC LOADING SCREEN -->
-    <div id="loading-screen" class="loading-screen">
-        <div class="golden-glow"></div>
-        <div class="monogram-container">
-            <div class="monogram-frame">
-                <span class="monogram-text">D & P</span>
+        <div class="couple-grid">
+            <div class="card">
+                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=600" alt="Danang">
+                <h3>Danang Ageng P.</h3>
+                <p>Putra dari Bapak [Nama Bapak]<br>& Ibu [Nama Ibu]</p>
             </div>
-            <div class="loading-bar">
-                <div class="loading-progress" id="loading-progress"></div>
+
+            <div class="and-symbol">&</div>
+
+            <div class="card">
+                <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=600" alt="Partner">
+                <h3>[Nama Mempelai Wanita]</h3>
+                <p>Putri dari Bapak [Nama Bapak]<br>& Ibu [Nama Ibu]</p>
             </div>
-            <p class="loading-subtitle">Memuat Undangan Royal Jawa...</p>
+        </div>
+    </section>
+
+    <!-- ACARA SECTION -->
+    <section class="section">
+        <h2 class="section-title">Rangkaian Acara</h2>
+        <div class="divider"></div>
+
+        <div class="event-box">
+            <h3 style="color: var(--gold); font-family: 'Cinzel';">AKAD NIKAH</h3>
+            <p style="margin: 10px 0;">Pukul 08.00 WIB - Selesai</p>
+            <p><strong>Pendopo Agung Keraton</strong><br>Jl. Keraton No. 1, Yogyakarta</p>
         </div>
 
-        <!-- Curtains / Curtain Trees for Reveal -->
-        <div class="curtain curtain-left" id="curtain-left"></div>
-        <div class="curtain curtain-right" id="curtain-right"></div>
-        <div class="gunungan-reveal" id="gunungan-reveal">
-            <svg class="gunungan-svg" viewBox="0 0 100 150">
-                <path d="M50 0 L100 150 L0 150 Z" fill="url(#gold-gradient)" />
-                <defs>
-                    <linearGradient id="gold-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" stop-color="#d4af37" />
-                        <stop offset="50%" stop-color="#aa7c11" />
-                        <stop offset="100%" stop-color="#553c08" />
-                    </linearGradient>
-                </defs>
-            </svg>
+        <div class="event-box">
+            <h3 style="color: var(--gold); font-family: 'Cinzel';">RESEPSI</h3>
+            <p style="margin: 10px 0;">Pukul 11.00 - 14.00 WIB</p>
+            <p><strong>Pendopo Agung Keraton</strong><br>Jl. Keraton No. 1, Yogyakarta</p>
         </div>
-    </div>
+    </section>
 
-    <!-- MUSIC CONTROLLER -->
-    <div class="music-controller" id="music-controller">
-        <button id="music-toggle" aria-label="Toggle Play/Pause Music" class="music-btn pulse-glow">
-            <i class="fas fa-music"></i>
-        </button>
-        <audio id="bg-music" loop>
-            <source src="assets/music/gamelan-instrumental.mp3" type="audio/mpeg">
-        </audio>
-    </div>
+    <!-- GIFT SECTION -->
+    <section class="section">
+        <h2 class="section-title">Wedding Gift</h2>
+        <div class="divider"></div>
+        <p>Doa restu Anda adalah hadiah terindah. Namun jika ingin memberi hadiah, Anda dapat menyalurkannya melalui:</p>
+        
+        <div class="event-box">
+            <p><strong>BANK BCA</strong></p>
+            <p style="font-size: 1.2rem; color: var(--gold-light); margin: 5px 0;">1234 5678 90</p>
+            <p>a.n. Danang Ageng Priyambada</p>
+        </div>
+    </section>
 
-    <!-- MAIN WRAPPER -->
-    <div id="smooth-wrapper">
-        <div id="smooth-content">
+    <!-- FOOTER -->
+    <footer>
+        <p>Terima Kasih atas Doa & Restu Anda</p>
+        <p style="margin-top: 5px; color: #888;">Danang & Partner Wedding</p>
+    </footer>
 
-            <!-- SECTION 1: HERO (PARALLAX LANDSCAPE) -->
-            <section id="hero" class="hero-section">
-                <div class="parallax-bg layer-sky"></div>
-                <div class="parallax-bg layer-mountains"></div>
-                <div class="parallax-bg layer-waterfall"></div>
-                <div class="parallax-bg layer-fog" id="fog-layer"></div>
-                <div class="parallax-bg layer-trees"></div>
-                <div class="parallax-bg layer-pendopo"></div>
-                <div class="parallax-bg layer-wayang"></div>
-
-                <div class="hero-content">
-                    <span class="royal-subtitle" data-aos="fade-down">The Royal Wedding of</span>
-                    <h1 class="royal-title" data-aos="zoom-in" data-aos-delay="300">Danang & Partner</h1>
-                    <p class="wedding-date-tag" data-aos="fade-up" data-aos-delay="600">Sabtu, 12 Desember 2026</p>
-                    <a href="#groom-bride" class="btn-royal btn-scroll-down">
-                        <span>Buka Undangan</span>
-                        <i class="fas fa-chevron-down"></i>
-                    </a>
-                </div>
-            </section>
-
-            <!-- SECTION 2: NAMA PENGANTIN -->
-            <section id="groom-bride" class="groom-bride-section section-padding">
-                <div class="container">
-                    <div class="section-header text-center" data-aos="fade-up">
-                        <h2 class="title-jawa">Pasangan Pengantin</h2>
-                        <div class="divider-ukiran"></div>
-                    </div>
-
-                    <div class="couple-grid">
-                        <!-- Groom -->
-                        <div class="couple-card groom" data-aos="fade-right">
-                            <div class="img-frame-jawa tilt-effect">
-                                <img src="assets/images/groom.jpg" alt="Foto Danang" class="couple-img" loading="lazy">
-                                <div class="ukiran-overlay"></div>
-                            </div>
-                            <h3>Danang Ageng Priyambada, S.Kom.</h3>
-                            <p class="parent-name">Putra Pertama dari Bapak [Nama Bapak] & Ibu [Nama Ibu]</p>
-                        </div>
-
-                        <div class="couple-divider" data-aos="zoom-in">
-                            <span class="and-symbol">&</span>
-                        </div>
-
-                        <!-- Bride -->
-                        <div class="couple-card bride" data-aos="fade-left">
-                            <div class="img-frame-jawa tilt-effect">
-                                <img src="assets/images/bride.jpg" alt="Foto Partner" class="couple-img" loading="lazy">
-                                <div class="ukiran-overlay"></div>
-                            </div>
-                            <h3>[Nama Lengkap Mempelai Wanita], S.Pd.</h3>
-                            <p class="parent-name">Putri Kedua dari Bapak [Nama Bapak] & Ibu [Nama Ibu]</p>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Continuation of sections will follow in Part 2... -->
+</body>
+</html>
